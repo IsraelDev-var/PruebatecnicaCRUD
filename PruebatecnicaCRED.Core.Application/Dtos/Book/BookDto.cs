@@ -16,6 +16,6 @@ public class BookDto
     public AuthorDto? Author { get; set; }
 
     // lista de libros prestados
-    public ICollection<LoanDto> Loans { get; set; } = new List<LoanDto>();
+    public ICollection<LoanDto>? Loans { get; set; }  
 
 }

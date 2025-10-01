@@ -10,7 +10,7 @@ namespace PruebaTecnicaWebAPP.Controllers
     [Route("api/[controller]")]
     public class AuthorController(IAuthorService authorService) : Controller
     {
-        private IAuthorService _authorService = authorService;
+        private readonly IAuthorService _authorService = authorService;
 
 
         // POST: api/authors
@@ -21,31 +21,34 @@ namespace PruebaTecnicaWebAPP.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var result = await _authorService.CreateAsync(dto);
+            var created = await _authorService.CreateAsync(dto);
 
-            if (!result)
+            if (created == null)
             {
-                return StatusCode(500, "No se pudo crear el Autor");
+                return BadRequest("No se pudo crear el autor.");
             }
-            return Ok(new { message = "Autor creado corectamente" });
+            return Ok(created);
         }
         // PUT: api/authors/{id}
         [HttpPut("id:int")]
 
         public async Task<IActionResult> Update([FromBody] UpdateAuthorDto dto)
         {
-            if (!ModelState.IsValid)
+            if (dto == null)
             {
-                return BadRequest(ModelState);
+                return BadRequest("EL iD NO COINCIDE.");
             }
 
-            var result = await _authorService.UpdateAsync(dto);
-            if (!result)
+            var updated = await _authorService.UpdateAsync(dto);
+            if (updated == null)
             {
-                return NotFound(new {message = $"Autor con el ID {dto.Id} no encontrado"});
+                return NotFound("No se pudo actualizar el autor.");
             }
 
-            return Ok(new {message = "Autor actulizado correctamente"});
+            return Ok(updated);
+
+
+
         }
         
        

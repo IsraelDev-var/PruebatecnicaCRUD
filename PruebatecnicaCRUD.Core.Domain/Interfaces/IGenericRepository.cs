@@ -8,8 +8,8 @@ namespace PruebatecnicaCRUD.Core.Domain.Interfaces
         Task<IEnumerable<Entity>> GetAllAsync();
         IQueryable<Entity> GetAllQueryable();
         Task<Entity?> GetByIdAsync(int id);
-        Task<Entity?> UpdateAsync(Entity entity);
-        Task DeleteAsync(int id);
+        Task<Entity?> UpdateAsync(int id, Entity entity);
+        Task<Entity?> DeleteAsync(int id);
         //Task<List<Entity>> GetAllListWithInclude(List<string> properties);
         //IQueryable<Entity> GetAllQueryWithInclude(List<string> properties);
     }
