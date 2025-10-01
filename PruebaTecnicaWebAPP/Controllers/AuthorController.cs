@@ -34,10 +34,7 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         public async Task<IActionResult> Update([FromBody] UpdateAuthorDto dto)
         {
-            if (dto == null)
-            {
-                return BadRequest("EL iD NO COINCIDE.");
-            }
+           
 
             var updated = await _authorService.UpdateAsync(dto);
             if (updated.Data == null)
@@ -73,11 +70,18 @@ namespace PruebaTecnicaWebAPP.Controllers
             var author = await _authorService.GetByIdAsync(id);
             if (author.Data == null)
             {
-                return NotFound("Autor no encontrado.");
+                return NotFound("Autor no encontrado. Verifique el ID");
             }
             return Ok(author);
         }
 
+        // GET: api/authors/with-books
+        [HttpGet("with-book")]
+        public async Task<IActionResult> GetAllWithInclude()
+        {
+            var authors = await _authorService.GetAllWithIncludeAsync();
+            return Ok(authors);
+        }
 
 
 

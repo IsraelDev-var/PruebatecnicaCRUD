@@ -71,14 +71,11 @@ namespace PruebatecnicaCRUD.Core.Application.Services
             ;
             try
             {
-
-
                 Author author = new()
                 {
                     Id = dto.Id,
                     Name = dto.Name,
                     Nationality = dto.Nationality,
-
                 };
 
                 var upated = await _authorRepository.UpdateAsync(author.Id, author);
@@ -94,7 +91,6 @@ namespace PruebatecnicaCRUD.Core.Application.Services
                     Nationality = upated.Nationality,
                 };
                 return ServiceResult<AuthorDto>.Ok(upatedto, "Author actulizado exitosamente");
-
             }
             catch (DbUpdateException dbEx)
             {
