@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PruebatecnicaCRUD.Core.Application.Dtos.Book;
 using PruebatecnicaCRUD.Core.Application.Interfaces;
+using PruebatecnicaCRUD.Core.Domain.Entities;
 
 namespace PruebaTecnicaWebAPP.Controllers
 {
@@ -26,7 +28,7 @@ namespace PruebaTecnicaWebAPP.Controllers
             var book = await _bookService.GetByIdAsync(id);
             if (book.Data == null)
             {
-                return NotFound("No se encontro el libro. Verifique el ID");
+                return BadRequest(new { message = book.Message });
             }
             return Ok(book);
         }
@@ -41,7 +43,7 @@ namespace PruebaTecnicaWebAPP.Controllers
             var created = await _bookService.CreateAsync(dto);
             if (created.Data == null)
             {
-                return BadRequest("No se pudo crear el libro.");
+                return BadRequest(new { message = created.Message });
             }
             return Ok(created);
         }
@@ -56,7 +58,7 @@ namespace PruebaTecnicaWebAPP.Controllers
             var updated = await _bookService.UpdateAsync(dto);
             if (updated.Data == null)
             {
-                return NotFound("No se pudo actualizar el libro. Verifique el ID");
+                return BadRequest(new { message = updated.Message });
             }
             return Ok(updated);
         }
@@ -67,15 +69,19 @@ namespace PruebaTecnicaWebAPP.Controllers
             var deleted = await _bookService.DeleteAsync(id);
             if (deleted.Data == null)
             {
-                return NotFound("No se pudo eliminar el libro. Verifique el ID");
+                return BadRequest(new { message = deleted.Message });
             }
-            return Ok(deleted);
+            return Ok(deleted.Data);
         }
         //GET: api/books/before-year-2000
         [HttpGet("before-year-2000")]
         public async Task<IActionResult> GetBooksBeforeYear2000()
         {
             var books = await _bookService.GetBooksBefore2000Async();
+            if (books.Data == null || books.Data.Count == 0)
+            {
+                return NotFound(new { message = books.Message });
+            }
             return Ok(books);
         }
 
@@ -84,6 +90,10 @@ namespace PruebaTecnicaWebAPP.Controllers
         public async Task<IActionResult> GetBooksWithAuthorsAndLoans()
         {
             var books = await _bookService.GetAllWithIncludeAsync();
+            if (!books.IsSuccess)
+            {
+                return NotFound(new { messge = books.Message });
+            }
             return Ok(books);
         }
 

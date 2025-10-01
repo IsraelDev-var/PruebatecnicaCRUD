@@ -2,6 +2,11 @@
 {
     public class UpdateLoanDto
     {
-        public DateTime? ReturnDate { get; set; }
+        public required int Id { get; set; }
+        
+        public required int BookId { get; set; }
+
+
+
     }
 }

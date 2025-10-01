@@ -96,6 +96,10 @@ namespace PruebatecnicaCRUD.Core.Application.Services
 
         public async Task<ServiceResult<BookDto>> DeleteAsync(int id)
         {
+            if (id <= 0)
+            {
+                return ServiceResult<BookDto>.Fail("El ID es inválido");
+            }
             try
             {
                 var deleted = await _bookRepository.DeleteAsync(id);

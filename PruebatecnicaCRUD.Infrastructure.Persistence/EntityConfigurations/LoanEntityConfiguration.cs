@@ -14,10 +14,14 @@ namespace PruebatecnicaCRUD.Infrastructure.Persistence.EntityConfigurations
             #region Basic configuration
             builder.HasKey(x => x.Id);
             builder.ToTable("Loan");
+
             #endregion
 
             #region Property configuratiopn
             builder.Property(x => x.LoanDate).IsRequired();
+            // indices
+            builder.HasIndex(x => x.ReturnDate);
+            builder.HasIndex(x => x.BookId);
             #endregion
         }
     }
