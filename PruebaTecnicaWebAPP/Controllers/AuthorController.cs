@@ -23,7 +23,7 @@ namespace PruebaTecnicaWebAPP.Controllers
             }
             var created = await _authorService.CreateAsync(dto);
 
-            if (created == null)
+            if (created.Data == null)
             {
                 return BadRequest("No se pudo crear el autor.");
             }
@@ -40,20 +40,48 @@ namespace PruebaTecnicaWebAPP.Controllers
             }
 
             var updated = await _authorService.UpdateAsync(dto);
-            if (updated == null)
+            if (updated.Data == null)
             {
                 return NotFound("No se pudo actualizar el autor.");
             }
 
             return Ok(updated);
 
-
-
         }
-        
-       
+        // DELETE: api/authors/{id}
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var deleted = await _authorService.DeleteAsync(id);
+            if (deleted.Data == null)
+            {
+                return NotFound("No se pudo eliminar el autor. verifique el ID");
+            }
+            return Ok(deleted);
+        }
+        // GET: api/authors
+        [HttpGet]
+        public async Task<IActionResult> GetAllList()
+        {
+            var authors = await _authorService.GetAllAsync();
+            return Ok(authors);
+        }
+        // GET: api/authors/{id}
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var author = await _authorService.GetByIdAsync(id);
+            if (author.Data == null)
+            {
+                return NotFound("Autor no encontrado.");
+            }
+            return Ok(author);
+        }
 
-        
-       
+
+
+
+
+
     }
 }
