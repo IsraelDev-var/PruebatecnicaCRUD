@@ -20,17 +20,17 @@ namespace PruebatecnicaCRUD.Infrastructure.Persistence
             }
             else
             {
-                //var connectionString = config.GetConnectionString("DefaultConnection");
-                //services.AddDbContext<PruebaAppContext>(opt =>
-                //opt.UseSqlServer(connectionString,
-                //m => m.MigrationsAssembly(typeof(PruebaAppContext).Assembly.FullName))
-                //, ServiceLifetime.Transient); // ServiceLifetime.Transient: para evitar cuello de botella
-
-                var connectionString = config.GetConnectionString("MySqlConnection");
-
+                var connectionString = config.GetConnectionString("DefaultConnection");
                 services.AddDbContext<PruebaAppContext>(opt =>
-                    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)),
-                    ServiceLifetime.Transient);
+                opt.UseSqlServer(connectionString,
+                m => m.MigrationsAssembly(typeof(PruebaAppContext).Assembly.FullName))
+                , ServiceLifetime.Transient); // ServiceLifetime.Transient: para evitar cuello de botella
+
+                //var connectionString = config.GetConnectionString("MySqlConnection");
+
+                //services.AddDbContext<PruebaAppContext>(opt =>
+                //    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)),
+                //    ServiceLifetime.Transient);
 
                 
             }
