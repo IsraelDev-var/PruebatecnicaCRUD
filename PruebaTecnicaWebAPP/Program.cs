@@ -56,6 +56,39 @@ builder.Services
     })
     .AddJwtBearer(options =>
     {
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = context =>
+            {
+                // Previene la respuesta por defecto
+                context.HandleResponse();
+
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+
+                var result = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    status = 401,
+                    message = "No autorizado. Debes enviar un token JWT válido."
+                });
+
+                return context.Response.WriteAsync(result);
+            },
+            OnForbidden = context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                context.Response.ContentType = "application/json";
+
+                var result = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    status = 403,
+                    message = "Acceso denegado. No tienes permisos para este recurso."
+                });
+
+                return context.Response.WriteAsync(result);
+            }
+        };
+
         options.RequireHttpsMetadata = true;
         options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
@@ -64,12 +97,13 @@ builder.Services
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = jwt["Issuer"], // Quien emite el token
-            ValidAudience = jwt["Audience"], // Quien puede usar el token
+            ValidIssuer = jwt["Issuer"],
+            ValidAudience = jwt["Audience"],
             IssuerSigningKey = signingKey,
-            ClockSkew = TimeSpan.Zero 
+            ClockSkew = TimeSpan.Zero
         };
     });
+
 
 // Autenticacion y autorizacion por roles
 builder.Services.AddAuthorization(options =>

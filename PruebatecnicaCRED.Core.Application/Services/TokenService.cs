@@ -47,7 +47,7 @@ namespace PruebatecnicaCRUD.Core.Application.Services
                 {
                     new (JwtRegisteredClaimNames.Sub, req.UserName),
                     new (ClaimTypes.Name, req.UserName),
-                    new (ClaimTypes.Role, "Admin")
+                    new (ClaimTypes.Role, user.Role)
                 };
 
                 // Algoritmo de firma
