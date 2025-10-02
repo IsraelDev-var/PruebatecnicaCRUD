@@ -134,7 +134,7 @@ Cobertura de casos de éxito, fallos y validaciones.
    ```
 4. Abrir Swagger en:
    ```
-   https://localhost:7281/swagger
+   https://localhost:5001/swagger
    ```
 
 ---
