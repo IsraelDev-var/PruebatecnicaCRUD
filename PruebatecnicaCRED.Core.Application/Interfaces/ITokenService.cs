@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using PruebatecnicaCRUD.Core.Application.Dtos;
+using PruebatecnicaCRUD.Core.Application.Dtos.Auth;
 
 namespace PruebatecnicaCRUD.Core.Application.Interfaces
 {
-    internal interface ITokenService
+    public interface ITokenService 
     {
+        Task<ServiceResult<LoginResponseDto>> AuthenticateAsync(LoginRequestDto req); 
+        
     }
 }

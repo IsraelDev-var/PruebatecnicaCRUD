@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace PruebatecnicaCRUD.Core.Application.Dtos.Auth
 {
-    internal class LoginRequestDto
+    public class LoginRequestDto
     {
+        public required string UserName { get; set; } = string.Empty;
+        public required string Password { get; set; } = string.Empty;
     }
 }

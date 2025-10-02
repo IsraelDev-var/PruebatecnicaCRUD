@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PruebatecnicaCRUD.Core.Application.Interfaces;
 using PruebatecnicaCRUD.Core.Application.Services;
+using PruebatecnicaCRUD.Core.Domain.Interfaces;
 
 
 namespace PruebatecnicaCRUD.Core.Application
@@ -15,7 +16,11 @@ namespace PruebatecnicaCRUD.Core.Application
             services.AddTransient<IAuthorService, AuthorService>();
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<ILoanService, LoanService>();
-      
+            services.AddTransient<ITokenService, TokenService>();
+            
+            services.AddTransient<ITokenService, TokenService>();
+
+
             #endregion
         }
     }

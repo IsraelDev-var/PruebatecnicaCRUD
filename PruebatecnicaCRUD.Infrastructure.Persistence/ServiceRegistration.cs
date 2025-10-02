@@ -41,6 +41,7 @@ namespace PruebatecnicaCRUD.Infrastructure.Persistence
             services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<ILoanRepository, LoanRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             #endregion
         }

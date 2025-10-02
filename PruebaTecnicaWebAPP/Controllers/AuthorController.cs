@@ -1,10 +1,9 @@
 ﻿
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PruebatecnicaCRUD.Core.Application.Dtos.Author;
 using PruebatecnicaCRUD.Core.Application.Interfaces;
-using PruebatecnicaCRUD.Core.Domain.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 
 namespace PruebaTecnicaWebAPP.Controllers
 {
@@ -18,12 +17,10 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         // POST: api/authors
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreateAuthorDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
             var created = await _authorService.CreateAsync(dto);
 
             if (created.Data == null)
@@ -34,6 +31,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // PUT: api/authors/{id}
         [HttpPut("id:int")]
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> Update([FromBody] UpdateAuthorDto dto)
         {
@@ -49,6 +47,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // DELETE: api/authors/{id}
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _authorService.DeleteAsync(id);
@@ -60,6 +59,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // GET: api/authors
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetAllList()
         {
             var authors = await _authorService.GetAllAsync();
@@ -71,6 +71,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // GET: api/authors/{id}
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetById(int id)
         {
             var author = await _authorService.GetByIdAsync(id);
@@ -83,6 +84,7 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         // GET: api/authors/with-books
         [HttpGet("with-book")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetAllWithInclude()
         {
             var authors = await _authorService.GetAllWithIncludeAsync();

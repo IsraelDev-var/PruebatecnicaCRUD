@@ -9,6 +9,5 @@ namespace PruebatecnicaCRUD.Core.Application.Interfaces
         // contato que solo implementa IBookService
         Task<ServiceResult<List<BookDto>>> GetBooksBefore2000Async();
 
-
     }
 }

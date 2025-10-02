@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PruebatecnicaCRUD.Core.Application.Dtos.Loan;
 using PruebatecnicaCRUD.Core.Application.Interfaces;
 
@@ -12,6 +13,7 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         // GET: api/loans/not-returned
         [HttpGet("not-returned")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetNoReturned()
         {
             var result = await _loanService.GetNotReturnedAsync();
@@ -24,6 +26,7 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         // GET: api/loans
         [HttpGet()]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var result = await _loanService.GetAllAsync();
@@ -35,6 +38,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // GET: api/loans/{id}
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _loanService.GetByIdAsync(id);
@@ -46,6 +50,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // POST: api/loans
         [HttpPost]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Create([FromBody] CreateLoanDto dto)
         {
             if (!ModelState.IsValid)
@@ -61,6 +66,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // PUT: api/loans/{id}
         [HttpPut("id:int")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromBody] UpdateLoanDto dto)
         {
             var updated = await _loanService.UpdateAsync(dto);
@@ -72,6 +78,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // DELETE: api/loans/{id}
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _loanService.DeleteAsync(id);
@@ -84,6 +91,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         
         // GET: api/loans/with-books
         [HttpGet("with-books")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetAllIncludingReturned()
         {
             var result = await _loanService.GetAllWithIncludeAsync();
@@ -96,6 +104,7 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         // PUT: api/loans/return
         [HttpPut("return")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Return([FromBody] ReturnLoanDto dto)
         {
             var returned = await _loanService.ReturnAsync(dto);

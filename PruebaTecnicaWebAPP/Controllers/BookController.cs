@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PruebatecnicaCRUD.Core.Application.Dtos.Book;
 using PruebatecnicaCRUD.Core.Application.Interfaces;
-using PruebatecnicaCRUD.Core.Domain.Entities;
+
 
 namespace PruebaTecnicaWebAPP.Controllers
 {
@@ -15,6 +15,7 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         // GET: api/books
         [HttpGet]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetAll()
         {
             var books = await _bookService.GetAllAsync();
@@ -23,6 +24,7 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         // GET: api/books/{id}
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetById(int id)
         {
             var book = await _bookService.GetByIdAsync(id);
@@ -34,6 +36,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // POST: api/books
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreateBookDto dto)
         {
             if (!ModelState.IsValid)
@@ -49,6 +52,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // PUT: api/books
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromBody] UpdateBookDto dto)
         {
             if (!ModelState.IsValid)
@@ -64,6 +68,8 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         // DELETE: api/books/{id}
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _bookService.DeleteAsync(id);
@@ -75,6 +81,7 @@ namespace PruebaTecnicaWebAPP.Controllers
         }
         //GET: api/books/before-year-2000
         [HttpGet("before-year-2000")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetBooksBeforeYear2000()
         {
             var books = await _bookService.GetBooksBefore2000Async();
@@ -87,6 +94,7 @@ namespace PruebaTecnicaWebAPP.Controllers
 
         // GET: api/books/with-authors-loans
         [HttpGet("with-authors-loans")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetBooksWithAuthorsAndLoans()
         {
             var books = await _bookService.GetAllWithIncludeAsync();

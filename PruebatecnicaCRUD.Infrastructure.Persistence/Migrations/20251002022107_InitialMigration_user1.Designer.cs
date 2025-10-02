@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PruebatecnicaCRUD.Infrastructure.Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using PruebatecnicaCRUD.Infrastructure.Persistence.Contexts;
 namespace PruebatecnicaCRUD.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(PruebaAppContext))]
-    partial class PruebaAppContextModelSnapshot : ModelSnapshot
+    [Migration("20251002022107_InitialMigration_user1")]
+    partial class InitialMigration_user1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
